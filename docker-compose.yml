@@ -1,0 +1,18 @@
+version: '3'
+services:
+  db:
+    image: postgres:12.1
+    ports:
+      - "5430:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+  web:
+    build: .
+    command: bash -c "bundle exec rails db:version | grep -q 0 && bundle exec rails db:create db:migrate db:seed ; bundle exec rails s -b '0.0.0.0'"
+    volumes:
+      - .:/myapp
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
