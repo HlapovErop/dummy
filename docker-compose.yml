@@ -9,7 +9,7 @@ services:
       POSTGRES_PASSWORD: postgres
   web:
     build: .
-    command: bash -c "bundle exec rails db:version | grep -q 0 && bundle exec rails db:create db:migrate db:seed ; bundle exec rails s -b '0.0.0.0'"
+    command: bash -c "rm /myapp/tmp/pids/server.pid && bundle exec rails db:version | grep -q 0 && bundle exec rails db:create ; rails db:migrate && rails db:seed ; bundle exec rails s -b '0.0.0.0'"
     volumes:
       - .:/myapp
     ports:
