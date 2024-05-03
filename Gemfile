@@ -52,6 +52,8 @@ gem 'multi_json'
 
 gem 'rswag'
 
+gem 'rails-erd', group: :development
+
 # Use Sass to process CSS
 # gem "sassc-rails"
 

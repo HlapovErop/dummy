@@ -16,6 +16,7 @@ services:
         rails db:create &&
         rails db:migrate &&
         rake rswag:specs:swaggerize &&
+        rake erd &&
         rails db:seed &&
         bundle exec rails s -b '0.0.0.0'
     volumes:

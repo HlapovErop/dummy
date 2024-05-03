@@ -6,4 +6,5 @@ ADD Gemfile /myapp/Gemfile
 
 RUN rm -f /myapp/Gemfile.lock && rm -f /myapp/tmp/pids/server.pid
 RUN bundle install
+RUN apt-get install -y graphviz
 ADD . /myapp
