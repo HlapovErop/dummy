@@ -22,3 +22,8 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+rspec spec/integration/requests_spec.rb
+
+docker run myapp rspec
+
