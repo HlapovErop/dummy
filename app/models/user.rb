@@ -10,8 +10,12 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: { case_sensitive: false }
 
   after_initialize :set_default_role, if: :new_record?
-  # set default role to user  if not set
+
   def set_default_role
-    self.role ||= :user
+    self.role = 'user'
+  end
+
+  def admin?
+    role == 'admin'
   end
 end
