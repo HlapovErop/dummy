@@ -9,7 +9,7 @@ class User < ApplicationRecord
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }
 
-  after_initialize :set_default_role, if: :new_record?
+  after_create :set_default_role
 
   def set_default_role
     self.role = 'user'

@@ -1,0 +1,66 @@
+<h1>Список заявок</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Номер</th>
+    <th>Описание</th>
+    <th>Статус</th>
+    <th>Действия</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @requests.each do |request| %>
+    <tr>
+      <td><%= request.number %></td>
+      <td><%= request.description %></td>
+      <td><%= request.state %></td>
+      <td>
+        <%= form_with(url: request_path(request), method: :put, local: true, class: "update-request-form") do |form| %>
+          <%= form.select :state, options_for_select(Request.states.keys.map { |state| [state.titleize, state] }), include_blank: 'Выберите статус' %>
+          <%= form.button 'Обновить статус', class: "update-request-button", data: { token: @token } %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var updateButtons = document.querySelectorAll('.update-request-button');
+
+        updateButtons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault(); // Отменяем стандартное поведение кнопки
+
+                var form = button.closest('.update-request-form'); // Находим ближайшую форму
+                var state = form.querySelector('select[name="state"]').value; // Получаем выбранный статус
+                var url = form.getAttribute('action'); // Получаем URL для отправки запроса
+                var token = button.dataset.token; // Получаем токен из атрибута data-token
+
+                var formData = new FormData(form); // Создаем объект FormData для передачи данных формы
+                formData.append('request[state]', state); // Добавляем параметр state в объект FormData
+
+                fetch(url, {
+                    method: 'PUT', // Устанавливаем метод запроса
+                    headers: {
+                        'Authorization': token // Устанавливаем заголовок Authorization с токеном
+                    },
+                    body: formData // Устанавливаем тело запроса с объектом FormData
+                })
+                    .then(function(response) {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        // Перезагружаем текущую страницу после успешного запроса
+                        window.location.reload();
+                    })
+                    .catch(function(error) {
+                        // Обработка ошибок
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            });
+        });
+    });
+</script>

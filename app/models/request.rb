@@ -3,7 +3,7 @@ class Request < ApplicationRecord
 
   enum state: %i[unprocessed confirmed rejected]
 
-  after_initialize :set_default_state, if: :new_record?
+  after_create :set_default_state
 
   def set_default_state
     self.state = 'unprocessed'

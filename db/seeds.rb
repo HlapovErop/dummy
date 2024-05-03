@@ -5,3 +5,14 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+unless User.find_by(username: 'admin')
+  admin = User.create(
+    name: 'Админ Админыч',
+    username: 'admin',
+    email: 'admin@example.com',
+    password: 'your_password',
+    role: :admin
+  )
+
+  puts "Admin user created with email: #{admin.email} and password: #{admin.password}"
+end
